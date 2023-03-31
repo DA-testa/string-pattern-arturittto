@@ -1,5 +1,4 @@
 # Artūrs Čubukovs 16.grupa 221RDB127
-
 def read_input():
     choice = input().strip()
     if choice == 'I':
