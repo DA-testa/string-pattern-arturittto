@@ -1,32 +1,42 @@
-# python3
+# Artūrs Čubukovs 16.grupa 221RDB127
 
 def read_input():
-    # this function needs to aquire input both from keyboard and file
-    # as before, use capital i (input from keyboard) and capital f (input from file) to choose which input type will follow
-    
-    
-    # after input type choice
-    # read two lines 
-    # first line is pattern 
-    # second line is text in which to look for pattern 
-    
-    # return both lines in one return
-    
-    # this is the sample return, notice the rstrip function
-    return (input().rstrip(), input().rstrip())
+    choice = input().strip()
+    if choice == 'I':
+        pattern = input().strip()
+        text = input().strip()
+    else:
+        with open('test.txt') as f:
+            lines = f.readlines()
+            pattern = lines[0].strip()
+            text = lines[1].strip()
+    return pattern, text
 
 def print_occurrences(output):
-    # this function should control output, it doesn't need any return
     print(' '.join(map(str, output)))
 
 def get_occurrences(pattern, text):
-    # this function should find the occurances using Rabin Karp alghoritm 
+    prime = 1000000007
+    multiplier = 31
+    p_len = len(pattern)
+    t_len = len(text)
+    pattern_hash = 0
+    text_hash = 0
+    match_positions = []
+    
+    for i in range(p_len):
+        pattern_hash = (pattern_hash * multiplier + ord(pattern[i])) % prime
+        text_hash = (text_hash * multiplier + ord(text[i])) % prime
+    
+    for i in range(t_len - p_len + 1):
+        if pattern_hash == text_hash and pattern == text[i:i+p_len]:
+            match_positions.append(i)
+        if i < t_len - p_len:
+            text_hash = (multiplier * (text_hash - ord(text[i]) * pow(multiplier, p_len-1, prime)) + ord(text[i+p_len])) % prime
+            if text_hash < 0:
+                text_hash += prime
+    
+    return match_positions
 
-    # and return an iterable variable
-    return [0]
-
-
-# this part launches the functions
 if __name__ == '__main__':
     print_occurrences(get_occurrences(*read_input()))
-
