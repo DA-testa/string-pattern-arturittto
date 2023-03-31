@@ -1,11 +1,12 @@
 # Artūrs Čubukovs 16.grupa 221RDB127
+
 def read_input():
     choice = input().strip()
     if choice == 'I':
         pattern = input().strip()
         text = input().strip()
     else:
-        with open('test.txt') as f:
+        with open('tests.txt') as f:
             lines = f.readlines()
             pattern = lines[0].strip()
             text = lines[1].strip()
